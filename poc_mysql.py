@@ -2,7 +2,7 @@ import mysql.connector
 
 
 def funcionBaseDatos():
-    print "POC- Conexion a Base de datos"
+    print("POC- Conexion a Base de datos")
     con = mysql.connector.connect(user='root', password='datos1986',host='127.0.0.1',database='datos_desa')
     c = con.cursor()
 
@@ -22,6 +22,6 @@ def funcionBaseDatos():
     return filas
 
 
-print "INICIO"
+print("INICIO")
 funcionBaseDatos()
-print "FIN"
+print("FIN")
