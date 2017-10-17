@@ -1,9 +1,8 @@
-import mysql.connector
-
+import pymysql
 
 def funcionBaseDatos():
     print("POC- Conexion a Base de datos")
-    con = mysql.connector.connect(user='root', password='datos1986',host='127.0.0.1',database='datos_desa')
+    con = pymysql.connect(host='127.0.0.1',  user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
     c.execute("""CREATE TABLE datos_desa.tb_poc_bbdd (campo1 int);""")
