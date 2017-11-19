@@ -22,7 +22,7 @@ def leerDatasetDatosDesdeBaseDatos():
     c.execute('SELECT * from datos_desa.tb_galgos_dataset_data_i001;')
     alist = c.fetchall()
     print("Numero de filas leidas: "+str(len(alist)))
-    #print("Primera fila de datos: "+str(alist[0]))
+    print("Primera fila de datos: "+str(alist[0]))
     data1 = np.array(alist)
 
     c.close()
@@ -37,7 +37,7 @@ def leerDatasetTargetsDesdeBaseDatos():
     c.execute('SELECT * from datos_desa.tb_galgos_dataset_target_i001;')
     alist = c.fetchall()
     print("Numero de filas leidas: " + str(len(alist)))
-    #print("Primera fila de target: " + str(alist[0]))
+    print("Primera fila de target: " + str(alist[0]))
     data1 = np.array(alist)
 
     c.close()
@@ -46,12 +46,17 @@ def leerDatasetTargetsDesdeBaseDatos():
 
 print("INICIO")
 X=leerDatasetDatosDesdeBaseDatos()
+print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
+print("Primera fila de X: "+str(X[0]))
 
+############################################
 print("Missing values: cambiamos los NULL por valor medio...")
 imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
 X_conpadding=imp.fit(X).transform(X)
-#print("Primera fila CON PADDING: "+str(X_conpadding[0]))
+print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
+print("Primera fila de X_conpadding: "+str(X_conpadding[0]))
 
+#####################################################
 print("Datasets: train y test...")
 n_sample = len(X_conpadding)
 X_train = X_conpadding[:int(.9 * n_sample)]

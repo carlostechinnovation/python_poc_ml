@@ -1,6 +1,7 @@
 from sklearn.externals import joblib
 import pymysql
 import numpy as np
+from sklearn.preprocessing import Imputer
 
 
 print("GALGOS - Informe 001")
@@ -29,33 +30,32 @@ print("INICIO")
 
 mejor_modelo = joblib.load('/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
 
+######################################3
 X=leerFeaturesDelCasoAPredecirDesdeBaseDatos()
+print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
+print("Primera fila de X: "+str(X[0]))
+
+#########################################
+print("Missing values: cambiamos los NULL por valor medio...")
+imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
+X_conpadding=imp.fit(X).transform(X)
+print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
+print("Primera fila CON PADDING: "+str(X_conpadding[0]))
 
 ######################## PREDICCION ##############
-print("Prediciendo con matriz de entrada X...")
-print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
-
-targets_predichos=mejor_modelo.predict(X)
+print("Prediciendo con matriz de entrada X_conpadding...")
+targets_predichos=mejor_modelo.predict(X_conpadding)
 
 print(targets_predichos)
-print("Longitug de salida targets_predichos =" + str(len(targets_predichos)))
+print("Longitud de salida targets_predichos =" + str(len(targets_predichos)))
 
-print("Guardando resultado en BBDD: datos_desa.tb_galgos_dataset_prediccion_target_i001")
-con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
-c = con.cursor()
-c.execute("""DROP TABLE datos_desa.tb_galgos_dataset_prediccion_target_i001;""")
-c.execute("""CREATE TABLE datos_desa.tb_galgos_dataset_prediccion_target_i001 (target int);""")
 
-for target in targets_predichos:
-    print("Insertando target="+str(target))
-    c.execute("""INSERT INTO datos_desa.tb_galgos_dataset_prediccion_target_i001 (target) VALUES("""+str(target)+""");""")
+##############################################
+fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_targets.txt', 'w')
+for item in targets_predichos:
+    fichero_resultados.write("%s\n" % item)
+
 
 print("FIN")
-
-
-
-
-
-
 
 
