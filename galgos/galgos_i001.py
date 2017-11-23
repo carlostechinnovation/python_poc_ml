@@ -1,9 +1,10 @@
 from __future__ import print_function
+
 import numpy as np
-from sklearn.preprocessing import Imputer
 import pymysql
-from sklearn import datasets, neighbors, linear_model
+from sklearn import neighbors, linear_model
 from sklearn.externals import joblib
+from sklearn.preprocessing import Imputer
 
 print("GALGOS - Informe 001")
 print("------------------")
@@ -50,8 +51,8 @@ print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
 print("Primera fila de X: "+str(X[0]))
 
 ############################################
-print("Missing values: cambiamos los NULL por valor medio...")
-imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
+print("Missing values: cambiamos los NULL por otro valor...")
+imp = Imputer(missing_values='NaN', strategy='median', axis=0)
 X_conpadding=imp.fit(X).transform(X)
 print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
 print("Primera fila de X_conpadding: "+str(X_conpadding[0]))
@@ -76,9 +77,12 @@ print("y_train: "+str(y_train.shape))
 y_train=y_train.ravel()
 print("y_train (reshaped): "+str(y_train.shape))
 
+print('\n\n')
+
 #Algoritmo K-Nearest neighbors
 knn = neighbors.KNeighborsClassifier()
-knn_score=knn.fit(X_train, y_train).score(X_test, y_test)
+a = knn.fit(X_train, y_train)
+knn_score = a.score(X_test, y_test)
 print('KNN score: %f' % knn_score)
 
 #Algoritmo REGRESION LOGISTICA
@@ -86,6 +90,7 @@ logistic = linear_model.LogisticRegression()
 logistic_score=logistic.fit(X_train, y_train).score(X_test, y_test)
 print('LogisticRegression score: %f' % logistic_score)
 
+print('\n\n')
 
 print("Guardando modelos...")
 modeloGuardado = joblib.dump(knn, '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_knn.pkl')

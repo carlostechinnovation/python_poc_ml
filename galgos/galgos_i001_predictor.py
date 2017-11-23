@@ -1,14 +1,14 @@
-from sklearn.externals import joblib
-import pymysql
 import numpy as np
+import pymysql
+from sklearn.externals import joblib
 from sklearn.preprocessing import Imputer
-
 
 print("GALGOS - Informe 001")
 print("------------------")
 print("Tipo de modelo: clasificacion")
 print("Objetivo: dado un galgo en una carrera, quiero clasificarle en 2 grupos: 1o2 o 3a6")
-print("Entrada: features de la carrera, features del galgo analizado, features de una galgo agregado (galgos competidores agrupados) y target para train/test.")
+print(
+    "Entrada: features de la carrera, features del galgo analizado, features de un galgo agregado (galgos competidores agrupados) y target para train/test.")
 print("Categorias (classes): 1o2 (valor 1) y 3a6 (valor 0)")
 print("------------------")
 
@@ -36,8 +36,8 @@ print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
 print("Primera fila de X: "+str(X[0]))
 
 #########################################
-print("Missing values: cambiamos los NULL por valor medio...")
-imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
+print("Missing values: cambiamos los NULL por otro valor...")
+imp = Imputer(missing_values='NaN', strategy='median', axis=0)
 X_conpadding=imp.fit(X).transform(X)
 print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
 print("Primera fila CON PADDING: "+str(X_conpadding[0]))
