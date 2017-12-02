@@ -57,6 +57,7 @@ X_conpadding=imp.fit(X).transform(X)
 print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
 print("Primera fila de X_conpadding: "+str(X_conpadding[0]))
 
+
 #####################################################
 print("Datasets: train y test...")
 n_sample = len(X_conpadding)
@@ -66,6 +67,11 @@ X_test = X_conpadding[int(.9 * n_sample):]
 Y=leerDatasetTargetsDesdeBaseDatos()
 y_train = Y[:int(.9 * n_sample)]
 y_test = Y[int(.9 * n_sample):]
+
+print("Entrada (TEST) ...")
+fichero_entrada_test = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_test_entrada.txt', 'w')
+for item in X_test:
+    fichero_entrada_test.write("%s\n" % item)
 
 
 ########### Modelos de CLASIFICACION #########################################
@@ -77,32 +83,50 @@ print("y_train: "+str(y_train.shape))
 y_train=y_train.ravel()
 print("y_train (reshaped): "+str(y_train.shape))
 
-print('\n\n')
-
-#Algoritmo K-Nearest neighbors
+print('\nAlgoritmo K-Nearest Neighbors')
 knn = neighbors.KNeighborsClassifier()
-a = knn.fit(X_train, y_train)
-knn_score = a.score(X_test, y_test)
+knn_score = knn.fit(X_train, y_train).score(X_test, y_test) * 100.0
 print('KNN score: %f' % knn_score)
 
-#Algoritmo REGRESION LOGISTICA
+print("Salida (TEST) de KNN...")
+targets_predichos_knn = knn.predict(X_test)
+fichero_resultados_test_knn = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_knn_test_targets_predichos.txt',
+                                   'w')
+for item in targets_predichos_knn:
+    fichero_resultados_test_knn.write("%s\n" % item)
+
+print('\nAlgoritmo REGRESION LOGISTICA')
 logistic = linear_model.LogisticRegression()
-logistic_score=logistic.fit(X_train, y_train).score(X_test, y_test)
+logistic_score = logistic.fit(X_train, y_train).score(X_test, y_test) * 100.0
 print('LogisticRegression score: %f' % logistic_score)
 
+print("Salida (TEST) de REG LOG...")
+targets_predichos_reglog = logistic.predict(X_test)
+fichero_resultados_test_logistic = open(
+    '/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_reglog_test_targets_predichos.txt', 'w')
+for item in targets_predichos_reglog:
+    fichero_resultados_test_logistic.write("%s\n" % item)
+
+
 print('\n\n')
+
+#############################################
+
+############################################
 
 print("Guardando modelos...")
 modeloGuardado = joblib.dump(knn, '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_knn.pkl')
 modeloGuardado = joblib.dump(logistic, '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/i001_logistic.pkl')
 
 print("Guardando modelo GANADOR...")
-if knn_score>=logistic_score:
-   print("Gana modelo KNN")
-   modeloGuardado = joblib.dump(knn,'/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+if (knn_score >= logistic_score):
+    print("Gana modelo K-Nearest Neighbors")
+    modeloGuardado = joblib.dump(knn,
+                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
 else:
-   print("Gana modelo LOGISTIC")
-   modeloGuardado = joblib.dump(logistic,'/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+    print("Gana modelo REGRESION LOGISTICA")
+    modeloGuardado = joblib.dump(logistic,
+                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
 
 
 print("FIN")
