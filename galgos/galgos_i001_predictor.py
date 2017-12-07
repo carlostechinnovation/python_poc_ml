@@ -17,7 +17,7 @@ def leerFeaturesDelCasoAPredecirDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_dataset_prediccion_features_i001;')
+    c.execute('SELECT * from datos_desa.tb_galgos_data_post;')
     alist = c.fetchall()
     print("Numero de filas leidas: "+str(len(alist)))
     #print("Primera fila de datos: "+str(alist[0]))
@@ -45,13 +45,12 @@ print("Primera fila CON PADDING: "+str(X_conpadding[0]))
 ######################## PREDICCION ##############
 print("Prediciendo con matriz de entrada X_conpadding...")
 targets_predichos=mejor_modelo.predict(X_conpadding)
-
-print(targets_predichos)
+# print("Ejemplo de targets predichos:", targets_predichos)
 print("Longitud de salida targets_predichos =" + str(len(targets_predichos)))
 
 
 ##############################################
-fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_targets.txt', 'w')
+fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/target_post.txt', 'w')
 for item in targets_predichos:
     fichero_resultados.write("%s\n" % item)
 
