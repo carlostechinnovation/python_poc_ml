@@ -62,12 +62,12 @@ print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str
 #####################################################
 print("Datasets: train y test...")
 n_sample = len(X_conpadding)
-X_train = X_conpadding[:int(.9 * n_sample)]
-X_test = X_conpadding[int(.9 * n_sample):]
+X_train = X_conpadding[:int(.80 * n_sample)]
+X_test = X_conpadding[int(.80 * n_sample):]
 
 Y=leerDatasetTargetsDesdeBaseDatos()
-y_train = Y[:int(.9 * n_sample)]
-y_test = Y[int(.9 * n_sample):]
+y_train = Y[:int(.80 * n_sample)]
+y_test = Y[int(.80 * n_sample):]
 
 print("Entrada (TEST) ...")
 fichero_entrada_test = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_test_entrada.txt', 'w')
