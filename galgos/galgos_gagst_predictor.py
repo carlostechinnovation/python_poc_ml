@@ -17,7 +17,7 @@ def leerFeaturesDelCasoAPredecirDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_data_post;')
+    c.execute('SELECT * from datos_desa.tb_galgos_data_gagst_post;')
     alist = c.fetchall()
     print("Numero de filas leidas: "+str(len(alist)))
     #print("Primera fila de datos: "+str(alist[0]))
@@ -28,7 +28,8 @@ def leerFeaturesDelCasoAPredecirDesdeBaseDatos():
 
 print("INICIO")
 
-mejor_modelo = joblib.load('/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+mejor_modelo = joblib.load(
+    '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 
 ######################################3
 X=leerFeaturesDelCasoAPredecirDesdeBaseDatos()
@@ -50,7 +51,7 @@ print("Longitud de salida targets_predichos =" + str(len(targets_predichos)))
 
 
 ##############################################
-fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/target_post.txt', 'w')
+fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/gagst_target_post.txt', 'w')
 for item in targets_predichos:
     fichero_resultados.write("%s\n" % item)
 

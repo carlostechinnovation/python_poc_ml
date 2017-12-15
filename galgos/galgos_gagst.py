@@ -7,7 +7,7 @@ from sklearn.externals import joblib
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, roc_curve, auc
 from sklearn.preprocessing import Imputer
 
-print("GALGOS - Informe 001")
+print("GALGOS - Informe GAGST")
 print("------------------")
 print("Tipo de modelo: clasificacion")
 print("Objetivo: dado un galgo en una carrera, quiero clasificarle en 2 grupos: 1o2 o 3a6")
@@ -21,14 +21,14 @@ def leerDatasetDatosDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_data_pre;')
+    c.execute('SELECT * from datos_desa.tb_galgos_data_gagst_pre;')
     alist = c.fetchall()
     print("Numero de filas leidas: "+str(len(alist)))
     # print("Primera fila de datos: "+str(alist[0]))
-    data1 = np.array(alist)
+    data_features = np.array(alist)
 
     c.close()
-    return data1
+    return data_features
 
 
 def leerDatasetTargetsDesdeBaseDatos():
@@ -36,14 +36,14 @@ def leerDatasetTargetsDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_target_pre;')
+    c.execute('SELECT * from datos_desa.tb_galgos_target_gagst_pre;')
     alist = c.fetchall()
     print("Numero de filas leidas: " + str(len(alist)))
     #print("Primera fila de target: " + str(alist[0]))
-    data1 = np.array(alist)
+    data_targets = np.array(alist)
 
     c.close()
-    return data1
+    return data_targets
 
 
 print("INICIO")
@@ -70,7 +70,7 @@ y_train = Y[:int(.80 * n_sample)]
 y_test = Y[int(.80 * n_sample):]
 
 print("Entrada (TEST) ...")
-fichero_entrada_test = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_test_entrada.txt', 'w')
+fichero_entrada_test = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/gagst_test_entrada.txt', 'w')
 for item in X_test:
     fichero_entrada_test.write("%s\n" % item)
 
@@ -107,7 +107,7 @@ knn_roc_auc = auc(false_positive_rate, recall)
 print('AUC (area bajo curva ROC) = %0.2f' % knn_roc_auc)
 
 knn_modeloGuardado = joblib.dump(knn,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_knn.pkl')
+                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_knn.pkl')
 
 ########################
 print('\n\n ------ Algoritmo REGRESION LOGISTICA ------ ')
@@ -133,20 +133,20 @@ logistic_roc_auc = auc(false_positive_rate, recall)
 print('AUC (area bajo curva ROC) = %0.2f' % logistic_roc_auc)
 
 logistic_modeloGuardado = joblib.dump(logistic,
-                                      '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/i001_logistic.pkl')
+                                      '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_logistic.pkl')
 
 #############################################
 ############################################
 
 print("\n\n -------- Guardando modelo GANADOR...  --------")
 if (knn_score >= logistic_score):
-    print("Gana modelo K-Nearest Neighbors con score=%f" % knn_score)
+    print("GAGST-Gana modelo K-Nearest Neighbors con score=%f" % knn_score)
     modeloGuardado = joblib.dump(knn,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 else:
-    print("Gana modelo REGRESION LOGISTICA con score=%f" % logistic_score)
+    print("GAGST-Gana modelo REGRESION LOGISTICA con score=%f" % logistic_score)
     modeloGuardado = joblib.dump(logistic,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 
 
 print("FIN")
