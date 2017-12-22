@@ -7,11 +7,12 @@ from sklearn.externals import joblib
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, roc_curve, auc
 from sklearn.preprocessing import Imputer
 
-print("GALGOS - Informe GAGST")
+print("GALGOS - Informe PGA")
 print("------------------")
 print("Tipo de modelo: clasificacion")
 print("Objetivo: dado un galgo en una carrera, quiero clasificarle en 2 grupos: 1o2 o 3a6")
-print("Entrada: features de la carrera, features del galgo analizado, features de una galgo agregado (galgos competidores agrupados) y target para train/test.")
+print(
+    "Entrada: features de la carrera, features del galgo analizado, features de una galgo agregado (galgos competidores agrupados) y target para train/test.")
 print("Categorias (classes): 1o2 (valor 1) y 3a6 (valor 0)")
 print("------------------")
 
@@ -21,9 +22,9 @@ def leerDatasetDatosDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_data_gagst_pre;')
+    c.execute('SELECT * from datos_desa.tb_pga_score_FEATURES_pre;')
     alist = c.fetchall()
-    print("Numero de filas leidas: "+str(len(alist)))
+    print("Numero de filas leidas: " + str(len(alist)))
     # print("Primera fila de datos: "+str(alist[0]))
     data_features = np.array(alist)
 
@@ -36,10 +37,10 @@ def leerDatasetTargetsDesdeBaseDatos():
     con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
     c = con.cursor()
 
-    c.execute('SELECT * from datos_desa.tb_galgos_target_gagst_pre;')
+    c.execute('SELECT * from datos_desa.tb_pga_score_TARGET_pre;')
     alist = c.fetchall()
     print("Numero de filas leidas: " + str(len(alist)))
-    #print("Primera fila de target: " + str(alist[0]))
+    # print("Primera fila de target: " + str(alist[0]))
     data_targets = np.array(alist)
 
     c.close()
@@ -47,16 +48,16 @@ def leerDatasetTargetsDesdeBaseDatos():
 
 
 print("INICIO")
-X=leerDatasetDatosDesdeBaseDatos()
-print("Shape de la matriz X =" + str(X.shape[0])+ "x"+ str(X.shape[1]))
-#print("Primera fila de X: "+str(X[0]))
+X = leerDatasetDatosDesdeBaseDatos()
+print("Shape de la matriz X =" + str(X.shape[0]) + "x" + str(X.shape[1]))
+# print("Primera fila de X: "+str(X[0]))
 
 ############################################
 print("Missing values: cambiamos los NULL por otro valor...")
 imp = Imputer(missing_values='NaN', strategy='median', axis=0)
-X_conpadding=imp.fit(X).transform(X)
-print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0])+ "x"+ str(X_conpadding.shape[1]))
-#print("Primera fila de X_conpadding: "+str(X_conpadding[0]))
+X_conpadding = imp.fit(X).transform(X)
+print("Shape de la matriz X_conpadding =" + str(X_conpadding.shape[0]) + "x" + str(X_conpadding.shape[1]))
+# print("Primera fila de X_conpadding: "+str(X_conpadding[0]))
 
 
 #####################################################
@@ -65,7 +66,7 @@ n_sample = len(X_conpadding)
 X_train = X_conpadding[:int(.80 * n_sample)]
 X_test = X_conpadding[int(.80 * n_sample):]
 
-Y=leerDatasetTargetsDesdeBaseDatos()
+Y = leerDatasetTargetsDesdeBaseDatos()
 y_train = Y[:int(.80 * n_sample)]
 y_test = Y[int(.80 * n_sample):]
 
@@ -74,23 +75,18 @@ fichero_entrada_test = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/gagst
 for item in X_test:
     fichero_entrada_test.write("%s\n" % item)
 
-
 ########### Modelos de CLASIFICACION #########################################
 print("Modelos de CLASIFICACION...")
 
-print("X_train: "+str(X_train.shape))
-print("y_train: "+str(y_train.shape))
+print("X_train: " + str(X_train.shape))
+print("y_train: " + str(y_train.shape))
 
-y_train=y_train.ravel()
-print("y_train (reshaped): "+str(y_train.shape))
+y_train = y_train.ravel()
+print("y_train (reshaped): " + str(y_train.shape))
 
 ##################
 print('\n ------ Algoritmo K-Nearest Neighbors ------ ')
-
-# http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html
-knn = neighbors.KNeighborsClassifier(n_neighbors=5, weights='uniform', algorithm='auto', leaf_size=30, p=2,
-                                     metric='minkowski', metric_params=None, n_jobs=1)
-
+knn = neighbors.KNeighborsClassifier()
 knn_score = knn.fit(X_train, y_train).score(X_test, y_test) * 100.0
 print('Score: %f' % knn_score)
 # Obtención de matriz de confusión
@@ -115,13 +111,7 @@ knn_modeloGuardado = joblib.dump(knn,
 
 ########################
 print('\n\n ------ Algoritmo REGRESION LOGISTICA ------ ')
-
-#
-logistic = linear_model.LogisticRegression(penalty='l2', dual=False, tol=0.0001, C=1.0, fit_intercept=True,
-                                           intercept_scaling=1, class_weight=None, random_state=None,
-                                           solver='liblinear', max_iter=100, multi_class='ovr', verbose=0,
-                                           warm_start=False, n_jobs=1)
-
+logistic = linear_model.LogisticRegression()
 logistic_score = logistic.fit(X_train, y_train).score(X_test, y_test) * 100.0
 print('LogisticRegression coeficientes (pesos) de cada feature: ', logistic.coef_)
 print('LogisticRegression score: %f' % logistic_score)
@@ -150,14 +140,12 @@ logistic_modeloGuardado = joblib.dump(logistic,
 
 print("\n\n -------- Guardando modelo GANADOR...  --------")
 if (knn_score >= logistic_score):
-    print("GAGST-Gana modelo K-Nearest Neighbors con score=%f" % knn_score)
+    print("PGA-Gana modelo K-Nearest Neighbors con score=%f" % knn_score)
     modeloGuardado = joblib.dump(knn,
                                  '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 else:
-    print("GAGST-Gana modelo REGRESION LOGISTICA con score=%f" % logistic_score)
+    print("PGA-Gana modelo REGRESION LOGISTICA con score=%f" % logistic_score)
     modeloGuardado = joblib.dump(logistic,
                                  '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 
-
 print("FIN")
-
