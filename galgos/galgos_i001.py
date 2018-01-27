@@ -10,15 +10,15 @@ print("GALGOS - Informe 001")
 print("------------------")
 print("Tipo de modelo: clasificacion")
 print("Objetivo: dado un galgo en una carrera, quiero clasificarle en 2 grupos: 1o2 o 3a6")
-print("Entrada: features de la carrera, features del galgo analizado, features de una galgo agregado (galgos competidores agrupados) y target para train/test.")
+print(
+    "Entrada: features de la carrera, features del galgo analizado, features de un galgo agregado (galgos competidores agrupados) y target para train/test.")
 print("Categorias (classes): 1o2 (valor 1) y 3a6 (valor 0)")
 print("------------------")
 
 
 def leerDatasetDatosDesdeBaseDatos():
     print("Conectando a Base de datos para descargar DATOS...")
-    con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
-    c = con.cursor()
+    c = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa').cursor()
 
     c.execute('SELECT * from datos_desa.tb_galgos_dataset_data_i001;')
     alist = c.fetchall()
@@ -32,8 +32,7 @@ def leerDatasetDatosDesdeBaseDatos():
 
 def leerDatasetTargetsDesdeBaseDatos():
     print("Conectando a Base de datos para descargar TARGETs...")
-    con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
-    c = con.cursor()
+    c = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa').cursor()
 
     c.execute('SELECT * from datos_desa.tb_galgos_dataset_target_i001;')
     alist = c.fetchall()
