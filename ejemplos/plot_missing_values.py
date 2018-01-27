@@ -24,12 +24,11 @@ In this case, imputing helps the classifier get close to the original score.
 
 """
 import numpy as np
-
 from sklearn.datasets import load_boston
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Imputer
-from sklearn.model_selection import cross_val_score
 
 rng = np.random.RandomState(0)
 
