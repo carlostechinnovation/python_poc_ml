@@ -138,7 +138,7 @@ print('Linear -->R^2 (Variance score) = %f' % r2_score_linear)  # si prediccion 
 ############# Ridge ##############################################
 print("\n\n****** REGRESION - RidgeCV ******")
 # He probado las combinaciones y el mejor alpha es 13
-modeloRidgeCV = linear_model.RidgeCV(alphas=(13.0, 15.0),
+modeloRidgeCV = linear_model.RidgeCV(alphas=(13.0, 14.0),
                                      fit_intercept=True, normalize=True, scoring=None, cv=None, gcv_mode='auto',
                                      store_cv_values=False)
 modeloRidgeCVEntrenado = modeloRidgeCV.fit(X_train_features_sinnulos, Y_train_targets)
@@ -177,7 +177,7 @@ print("\n\n****** REGRESION - LassoLarsCV ******")
 from sklearn.linear_model import LassoLarsCV
 
 modeloLassoLarsCV = LassoLarsCV(fit_intercept=True, verbose=False, max_iter=500, normalize=True, precompute='auto',
-                                cv=None, max_n_alphas=1000, n_jobs=1, eps=2.2204460492503131e-16, copy_X=True,
+                                cv=None, max_n_alphas=1000, n_jobs=-1, eps=2.2204460492503131e-16, copy_X=True,
                                 positive=False)
 print(modeloLassoLarsCV)
 
@@ -314,7 +314,7 @@ print(
 predecirValidationTargets(modeloRidgeCVEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
 # predecirValidationTargets(modeloLassoEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
 # predecirValidationTargets(modeloLassoLarsCVEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
-# predecirValidationTargets(modeloElasticNetEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
+#predecirValidationTargets(modeloElasticNetEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
 
 print("Guardando modelo ganador (RIDGE de momento)...")
 joblib.dump(modeloRidgeCVEntrenado,
