@@ -1,3 +1,7 @@
+from __future__ import print_function
+
+import sys
+
 import numpy as np
 import pymysql
 from sklearn.externals import joblib
@@ -10,28 +14,36 @@ print("Entrada: FUTURO --> features")
 print("****************")
 
 
-def leerFeaturesDelCasoAPredecirDesdeBaseDatos():
-    print("Conectando a Base de datos para descargar FEATURES DE CASOS A PREDECIR...")
-    con = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa')
-    c = con.cursor()
+################# FUNCIONES #################
 
-    c.execute('SELECT * from datos_desa.tb_galgos_dataset_prediccion_features_i001;')
+def leerDataset(camposRelleno, sufijoTiempo, sufijoGrupoColumnas, sufijoEtiqueta):
+    c = pymysql.connect(host='127.0.0.1', user='root', passwd='datos1986', db='datos_desa').cursor()
+    consulta = "SELECT *" + camposRelleno + " FROM datos_desa.tb_ds" + sufijoTiempo + sufijoGrupoColumnas + sufijoEtiqueta + ";"
+    c.execute(consulta)
     alist = c.fetchall()
-    print("Numero de filas leidas: " + str(len(alist)))
-    # print("Primera fila de datos: "+str(alist[0]))
-    data1 = np.array(alist)
-
+    dataOut = np.array(alist)
     c.close()
-    return data1
+    print(
+        "\ndataset" + sufijoTiempo + sufijoGrupoColumnas + sufijoEtiqueta + "-Consulta --> " + consulta)
+    print(
+        "dataset" + sufijoTiempo + sufijoGrupoColumnas + sufijoEtiqueta + "-Filas = " + str(len(alist)))
+    print("dataset" + sufijoTiempo + sufijoGrupoColumnas + sufijoEtiqueta + "-Shape = " + str(
+        dataOut.shape[0]) + "x" + str(dataOut.shape[1]))
+    print("dataset" + sufijoTiempo + sufijoGrupoColumnas + sufijoEtiqueta + "-Ejemplos:\n" + str(
+        alist[0]) + "\n" + str(alist[1]))
+    return dataOut
 
 
-print("INICIO")
+###########################################################
 
-mejor_modelo = joblib.load(
-    '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+print("\nINICIO")
 
-######################################3
-X = leerFeaturesDelCasoAPredecirDesdeBaseDatos()
+print("Numero de parametros de entrada:", len(sys.argv))
+print("Parametros de entrada --> ", str(sys.argv))
+sufijoEtiqueta = str(sys.argv[1])
+
+######################################
+X = leerDataset(", 0 AS relleno", "_futuro", "_features", sufijoEtiqueta)
 print("Shape de la matriz X =" + str(X.shape[0]) + "x" + str(X.shape[1]))
 print("Primera fila de X: " + str(X[0]))
 
@@ -44,13 +56,18 @@ print("Primera fila CON PADDING: " + str(X_conpadding[0]))
 
 ######################## PREDICCION ##############
 print("Prediciendo con matriz de entrada X_conpadding...")
+path_modelo = '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl'
+print("Path del modelo usado = " + path_modelo)
+mejor_modelo = joblib.load(path_modelo)
 targets_predichos = mejor_modelo.predict(X_conpadding)
 
 print(targets_predichos)
 print("Longitud de salida targets_predichos =" + str(len(targets_predichos)))
 
 ##############################################
-fichero_resultados = open('/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/i001_targets.txt', 'w')
+path_futuro_targets = "/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/datos_desa.tb_ds_futuro_targets" + sufijoEtiqueta + ".txt"
+print("Guardando resultado futuro-targets en = " + path_futuro_targets)
+fichero_resultados = open(path_futuro_targets, 'w')
 for item in targets_predichos:
     fichero_resultados.write("%s\n" % item)
 
