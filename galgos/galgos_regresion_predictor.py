@@ -36,7 +36,7 @@ def leerDataset(camposRelleno, sufijoTiempo, sufijoGrupoColumnas, sufijoEtiqueta
 
 ###########################################################
 
-print("\nINICIO")
+print("\nPYTHON - Predictor: INICIO")
 
 print("Numero de parametros de entrada:", len(sys.argv))
 print("Parametros de entrada --> ", str(sys.argv))
@@ -58,17 +58,24 @@ print("Primera fila CON PADDING: " + str(X_conpadding[0]))
 print("Prediciendo con matriz de entrada X_conpadding...")
 path_modelo = '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl'
 print("Path del modelo usado = " + path_modelo)
-mejor_modelo = joblib.load(path_modelo)
-targets_predichos = mejor_modelo.predict(X_conpadding)
 
+print("Cargando modelo...")
+mejor_modelo = joblib.load(path_modelo)
+print("Modelo cargado. Prediciendo...")
+targets_predichos = mejor_modelo.predict(X_conpadding)
+print("Prediccion terminada. Comprobamos y persistimos...")
+
+print("Shape de la matriz futuro_targets_predichos =" + str(targets_predichos.shape[0]) + "x" + str(
+    targets_predichos.shape[1]))
+print("futuro_targets_predichos:\n")
 print(targets_predichos)
-print("Longitud de salida targets_predichos =" + str(len(targets_predichos)))
+print("Longitud de salida targets_futuro (PREDICHOS) =" + str(len(targets_predichos)))
 
 ##############################################
-path_futuro_targets = "/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/datos_desa.tb_ds_futuro_targets" + sufijoEtiqueta + ".txt"
-print("Guardando resultado futuro-targets en = " + path_futuro_targets)
+path_futuro_targets = "/home/carloslinux/Desktop/DATOS_LIMPIO/galgos/FILELOAD_ds_futuro_targets" + sufijoEtiqueta + ".txt"
+print("PYTHON - Guardando resultado futuro-targets en = " + path_futuro_targets)
 fichero_resultados = open(path_futuro_targets, 'w')
 for item in targets_predichos:
     fichero_resultados.write("%s\n" % item)
 
-print("FIN")
+print("PYTHON - Predictor: FIN")

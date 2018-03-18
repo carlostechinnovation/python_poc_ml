@@ -36,7 +36,7 @@ def leerDataset(camposRelleno, sufijoTiempo, sufijoTipoDs, sufijoGrupoColumnas, 
 
 ###########################################################
 
-print("\nINICIO")
+print("\nTRAIN y TEST: INICIO")
 
 print("Numero de parametros de entrada:", len(sys.argv))
 print("Parametros de entrada --> ", str(sys.argv))
@@ -95,11 +95,11 @@ print("Primeras filas de X_validation_features_sinnulos: \n" + str(X_validation_
 
 ##################### Datasets preparados para usar ###########
 # X_train_features_sinnulos
-# X_train_targets
+# Y_train_targets
 # X_test_features_sinnulos
-# X_test_targets
+# Y_test_targets
 # X_validation_features_sinnulos
-# X_validation_targets
+# Y_validation_targets
 
 ################### Comprobacion de: Input contains NaN, infinity or a value too large for dtype('float64'). ########
 print("checkInvalidos_train_features_sinnulos --> ")
@@ -337,4 +337,4 @@ joblib.dump(modeloRidgeCVEntrenado,
 
 
 
-print("FIN")
+print("\nTRAIN y TEST: FIN")
