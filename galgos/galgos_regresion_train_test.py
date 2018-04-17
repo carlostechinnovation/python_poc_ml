@@ -36,7 +36,7 @@ def leerDataset(camposRelleno, sufijoTiempo, sufijoTipoDs, sufijoGrupoColumnas, 
 
 ###########################################################
 
-print("\nTRAIN y TEST: INICIO")
+print("\n\nTRAIN y TEST: INICIO")
 
 print("Numero de parametros de entrada:", len(sys.argv))
 print("Parametros de entrada --> ", str(sys.argv))
