@@ -3,6 +3,7 @@ from __future__ import print_function
 import sys
 
 import numpy as np
+
 import pymysql
 from sklearn.externals import joblib
 from sklearn.preprocessing import Imputer
@@ -318,21 +319,21 @@ predecirValidationTargets(modeloRidgeCVEntrenado, X_validation_features_sinnulos
 
 print("Guardando modelo ganador (RIDGE de momento)...")
 joblib.dump(modeloRidgeCVEntrenado,
-            '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
+            '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
 ########################
 
 
 # if (r2_score_lasso >= r2_score_elasticnet ):
 #    print("Gana modelo Lasso")
 #    joblib.dump(modeloLassoEntrenado,
-#                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
+#                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
 #    predecirValidationTargets(modeloLassoEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
 # elif(r2_score_linear ...):
 #
 # else:
 #    print("Gana modelo ElasticNet")
 #    joblib.dump(modeloElasticNetEntrenado,
-#                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
+#                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
 #    predecirValidationTargets(modeloElasticNetEntrenado, X_validation_features_sinnulos, sufijoEtiqueta)
 
 

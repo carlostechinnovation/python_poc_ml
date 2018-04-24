@@ -201,7 +201,7 @@ print(
 
 print("Guardando modelo ganador (RIDGE de momento)...")
 joblib.dump(modeloRidgeCVEntrenado,
-            '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
+            '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl')
 ########################
 
 print("\nModelo TTV (entrenar y persistir) - FIN")

@@ -31,7 +31,7 @@ def leerFeaturesDelCasoAPredecirDesdeBaseDatos():
 print("INICIO")
 
 mejor_modelo = joblib.load(
-    '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/pga_MEJOR_MODELO.pkl')
+    '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/pga_MEJOR_MODELO.pkl')
 
 ######################################3
 X = leerFeaturesDelCasoAPredecirDesdeBaseDatos()

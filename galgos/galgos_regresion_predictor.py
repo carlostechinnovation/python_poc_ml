@@ -56,7 +56,7 @@ print("Primera fila CON PADDING: " + str(X_conpadding[0]))
 
 ######################## PREDICCION ##############
 print("Prediciendo con matriz de entrada X_conpadding...")
-path_modelo = '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl'
+path_modelo = '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_regresion_MEJOR_MODELO.pkl'
 print("Path del modelo usado = " + path_modelo)
 
 print("Cargando modelo...")

@@ -107,7 +107,7 @@ knn_roc_auc = auc(false_positive_rate, recall)
 print('AUC (area bajo curva ROC) = %0.2f' % knn_roc_auc)
 
 knn_modeloGuardado = joblib.dump(knn,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_knn.pkl')
+                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/gagst_knn.pkl')
 
 ########################
 print('\n\n ------ Algoritmo REGRESION LOGISTICA ------ ')
@@ -133,7 +133,7 @@ logistic_roc_auc = auc(false_positive_rate, recall)
 print('AUC (area bajo curva ROC) = %0.2f' % logistic_roc_auc)
 
 logistic_modeloGuardado = joblib.dump(logistic,
-                                      '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_logistic.pkl')
+                                      '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/gagst_logistic.pkl')
 
 #############################################
 ############################################
@@ -142,10 +142,10 @@ print("\n\n -------- Guardando modelo GANADOR...  --------")
 if (knn_score >= logistic_score):
     print("PGA-Gana modelo K-Nearest Neighbors con score=%f" % knn_score)
     modeloGuardado = joblib.dump(knn,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 else:
     print("PGA-Gana modelo REGRESION LOGISTICA con score=%f" % logistic_score)
     modeloGuardado = joblib.dump(logistic,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/gagst_MEJOR_MODELO.pkl')
 
 print("FIN")

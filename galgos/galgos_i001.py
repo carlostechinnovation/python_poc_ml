@@ -114,18 +114,18 @@ print('\n\n')
 ############################################
 
 print("Guardando modelos...")
-modeloGuardado = joblib.dump(knn, '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_knn.pkl')
-modeloGuardado = joblib.dump(logistic, '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/i001_logistic.pkl')
+modeloGuardado = joblib.dump(knn, '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_i001_knn.pkl')
+modeloGuardado = joblib.dump(logistic, '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/i001_logistic.pkl')
 
 print("Guardando modelo GANADOR...")
 if (knn_score >= logistic_score):
     print("Gana modelo K-Nearest Neighbors")
     modeloGuardado = joblib.dump(knn,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
 else:
     print("Gana modelo REGRESION LOGISTICA")
     modeloGuardado = joblib.dump(logistic,
-                                 '/home/carloslinux/Desktop/GIT_REPO_PYTHON_POC_ML/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
+                                 '/home/carloslinux/Desktop/WORKSPACES/wksp_pycharm/python_poc_ml/galgos/galgos_i001_MEJOR_MODELO.pkl')
 
 
 print("FIN")
